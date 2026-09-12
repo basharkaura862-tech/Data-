@@ -1,1 +1,864 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1826a5">
+<title>Hapsat Data - Dashboard</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #eef1f7;
+  color: #172033;
+}
+
+button, input, select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid #7c83ff;
+  outline-offset: 2px;
+}
+
+.app {
+  max-width: 450px;
+  min-height: 100vh;
+  margin: auto;
+  background: #f8fafc;
+  overflow: hidden;
+}
+
+/* TOP HEADER */
+.header {
+  background: linear-gradient(135deg, #151c91, #2939c9);
+  color: white;
+  padding: 25px 18px 18px;
+  border-radius: 0 0 28px 28px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  width: 43px;
+  height: 43px;
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.profile h3 {
+  font-size: 15px;
+  margin-bottom: 5px;
+}
+
+.profile p {
+  font-size: 12px;
+  opacity: .85;
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.icon-btn {
+  width: 39px;
+  height: 39px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255,255,255,.15);
+  color: white;
+  font-size: 19px;
+}
+
+/* WALLET */
+.wallet {
+  margin-top: 20px;
+  background: linear-gradient(135deg, #293bd0, #14218f);
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 20px;
+  padding: 20px;
+  color: white;
+  box-shadow: 0 8px 20px rgba(12,23,120,.18);
+}
+
+.wallet-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.wallet small {
+  font-size: 12px;
+  opacity: .85;
+}
+
+.wallet h2 {
+  font-size: 28px;
+  margin-top: 9px;
+}
+
+.wallet .commission {
+  margin-top: 9px;
+  font-size: 12px;
+  opacity: .9;
+}
+
+.eye {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 21px;
+}
+
+.wallet-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.wallet-actions button {
+  border: none;
+  background: white;
+  color: #1726a0;
+  padding: 12px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* CONTENT */
+.content {
+  padding: 22px 18px;
+}
+
+.section-title {
+  font-size: 17px;
+  font-weight: bold;
+  margin-bottom: 14px;
+}
+
+.services {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.service {
+  background: white;
+  border: 1px solid #e6eaf2;
+  border-radius: 13px;
+  padding: 13px 3px;
+  min-height: 94px;
+  color: #18233f;
+  font-size: 11px;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(0,0,0,.025);
+}
+
+.service .emoji {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 43px;
+  height: 43px;
+  margin: 0 auto 9px;
+  background: #eef0ff;
+  border-radius: 10px;
+  font-size: 22px;
+}
+
+.service:active {
+  transform: scale(.97);
+}
+
+/* WELCOME BANNER */
+.banner {
+  margin-top: 23px;
+  background: linear-gradient(135deg, #202da8, #4859e6);
+  color: white;
+  border-radius: 17px;
+  padding: 19px;
+  overflow: hidden;
+}
+
+.banner h2 {
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.banner p {
+  font-size: 12px;
+  margin-top: 7px;
+  line-height: 1.5;
+}
+
+/* TRANSACTIONS */
+.transactions {
+  margin-top: 25px;
+}
+
+.transaction {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: white;
+  border-radius: 13px;
+  padding: 15px;
+  margin-bottom: 10px;
+  border: 1px solid #e6eaf2;
+}
+
+.transaction-icon {
+  width: 42px;
+  height: 42px;
+  background: #eef0ff;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.transaction-info {
+  flex: 1;
+}
+
+.transaction-info strong {
+  font-size: 13px;
+}
+
+.transaction-info small {
+  display: block;
+  color: #7a849b;
+  margin-top: 5px;
+  font-size: 11px;
+}
+
+.transaction-amount {
+  font-size: 12px;
+  font-weight: bold;
+  color: #64748b;
+}
+
+/* FOOTER */
+.footer {
+  text-align: center;
+  padding: 20px;
+  color: #8791a5;
+  font-size: 11px;
+}
+
+/* MODAL */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(8,12,45,.55);
+  z-index: 20;
+  padding: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal.show {
+  display: flex;
+}
+
+.modal-box {
+  width: 100%;
+  max-width: 410px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: white;
+  border-radius: 22px;
+  padding: 23px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.modal-header h2 {
+  font-size: 19px;
+  color: #1826a5;
+}
+
+.close {
+  border: none;
+  background: #eef0ff;
+  color: #1826a5;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  font-size: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #4c5870;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #dce1ec;
+  border-radius: 11px;
+  background: white;
+  color: #172033;
+}
+
+.primary-btn {
+  width: 100%;
+  border: none;
+  background: #2535bf;
+  color: white;
+  border-radius: 11px;
+  padding: 14px;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.secondary-btn {
+  width: 100%;
+  border: 1px solid #dce1ec;
+  background: #f8f9ff;
+  color: #2535bf;
+  border-radius: 11px;
+  padding: 13px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.networks {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 17px;
+}
+
+.network {
+  border: 2px solid #e1e5f0;
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  text-align: center;
+  font-weight: bold;
+  color: #25304a;
+}
+
+.network.selected {
+  border-color: #293bd0;
+  background: #eef0ff;
+  color: #1826a5;
+}
+
+.network span {
+  display: block;
+  font-size: 24px;
+  margin-bottom: 7px;
+}
+
+.info-box {
+  background: #f0f3ff;
+  color: #303e99;
+  border-radius: 11px;
+  padding: 13px;
+  font-size: 12px;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+/* SMALL SCREENS */
+@media (max-width: 350px) {
+  .content {
+    padding: 18px 12px;
+  }
+
+  .header {
+    padding: 20px 13px 15px;
+  }
+
+  .services {
+    gap: 6px;
+  }
+
+  .service {
+    font-size: 10px;
+  }
+
+  .wallet h2 {
+    font-size: 25px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- HEADER -->
+  <header class="header">
+
+    <div class="topbar">
+
+      <div class="profile">
+        <div class="avatar">👤</div>
+
+        <div>
+          <h3>Hi, ElBashir</h3>
+          <p>Account: Customer</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button class="icon-btn" onclick="showNotice('Notifications', 'You have no new notifications.')">🔔</button>
+        <button class="icon-btn" onclick="showNotice('Hapsat Data', 'Welcome to your dashboard.')">⏻</button>
+      </div>
+
+    </div>
+
+    <!-- WALLET -->
+    <div class="wallet">
+
+      <div class="wallet-top">
+        <div>
+          <small>Hapsat Data Wallet</small>
+          <h2 id="balance">₦0.00</h2>
+          <p class="commission">Commission: ₦0.00</p>
+        </div>
+
+        <button class="eye" onclick="toggleBalance()" aria-label="Hide or show balance">👁</button>
+      </div>
+
+      <div class="wallet-actions">
+        <button onclick="openModal('fundModal')">⊕ Add Money</button>
+        <button onclick="openModal('contactModal')">◉ Contact Us</button>
+      </div>
+
+    </div>
+
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="content">
+
+    <h2 class="section-title">What Would You Like To Do Today?</h2>
+
+    <div class="services">
+
+      <button class="service" onclick="openModal('airtimeModal')">
+        <div class="emoji">📞</div>
+        Airtime
+      </button>
+
+      <button class="service" onclick="openDataModal()">
+        <div class="emoji">📶</div>
+        Data
+      </button>
+
+      <button class="service" onclick="showNotice('TV Subscription', 'TV subscription demo coming soon.')">
+        <div class="emoji">📺</div>
+        TV
+      </button>
+
+      <button class="service" onclick="showNotice('Electricity', 'Electricity payment demo coming soon.')">
+        <div class="emoji">⚡</div>
+        Electricity
+      </button>
+
+      <button class="service" onclick="showNotice('Education', 'Education payment demo coming soon.')">
+        <div class="emoji">🎓</div>
+        Education
+      </button>
+
+      <button class="service" onclick="showNotice('Referrals', 'Your referral system will appear here.')">
+        <div class="emoji">👥</div>
+        Referrals
+      </button>
+
+      <button class="service" onclick="showNotice('Agent', 'Agent services coming soon.')">
+        <div class="emoji">🧑‍💼</div>
+        Agent
+      </button>
+
+      <button class="service" onclick="showNotice('Vendors', 'Vendor services coming soon.')">
+        <div class="emoji">🏪</div>
+        Vendors
+      </button>
+
+    </div>
+
+    <!-- BANNER -->
+    <div class="banner">
+      <h2>NEVER RUN OUT OF DATA AND AIRTIME 📶</h2>
+      <p>Welcome to Hapsat Data. We are always here to serve you.</p>
+    </div>
+
+    <!-- TRANSACTIONS -->
+    <div class="transactions">
+
+      <h2 class="section-title">Recent Transactions</h2>
+
+      <div id="transactions">
+        <div class="transaction">
+          <div class="transaction-icon">📋</div>
+          <div class="transaction-info">
+            <strong>No transactions yet</strong>
+            <small>Your purchases will appear here.</small>
+          </div>
+          <div class="transaction-amount">—</div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    © 2026 Hapsat Data. All rights reserved.
+  </footer>
+
+</div>
+
+<!-- DATA MODAL -->
+<div class="modal" id="dataModal">
+  <div class="modal-box">
+
+    <div class="modal-header">
+      <h2>📶 Buy Data</h2>
+      <button class="close" onclick="closeModal('dataModal')">×</button>
+    </div>
+
+    <div class="info-box">
+      Select your network and data bundle. This is a demo purchase form.
+    </div>
+
+    <label style="font-size:12px;font-weight:bold;display:block;margin-bottom:10px;">
+      Select Network
+    </label>
+
+    <div class="networks">
+
+      <button class="network" onclick="selectNetwork(this,'MTN')">
+        <span>🟡</span>
+        MTN
+      </button>
+
+      <button class="network" onclick="selectNetwork(this,'GLO')">
+        <span>🟢</span>
+        GLO
+      </button>
+
+      <button class="network" onclick="selectNetwork(this,'9MOBILE')">
+        <span>🟢</span>
+        9MOBILE
+      </button>
+
+      <button class="network" onclick="selectNetwork(this,'AIRTEL')">
+        <span>🔴</span>
+        AIRTEL
+      </button>
+
+    </div>
+
+    <div class="form-group">
+      <label>Phone Number</label>
+      <input type="tel" id="dataPhone" placeholder="08012345678" maxlength="11">
+    </div>
+
+    <div class="form-group">
+      <label>Data Bundle</label>
+      <select id="dataBundle">
+        <option value="">Select Data Bundle</option>
+        <option value="500MB">500MB - Demo</option>
+        <option value="1GB">1GB - Demo</option>
+        <option value="2GB">2GB - Demo</option>
+        <option value="5GB">5GB - Demo</option>
+        <option value="10GB">10GB - Demo</option>
+      </select>
+    </div>
+
+    <button class="primary-btn" onclick="submitData()">Continue</button>
+    <button class="secondary-btn" onclick="closeModal('dataModal')">Cancel</button>
+
+  </div>
+</div>
+
+<!-- FUND WALLET MODAL -->
+<div class="modal" id="fundModal">
+  <div class="modal-box">
+
+    <div class="modal-header">
+      <h2>💰 Add Money</h2>
+      <button class="close" onclick="closeModal('fundModal')">×</button>
+    </div>
+
+    <div class="info-box">
+      Demo wallet funding. No real money will be added.
+    </div>
+
+    <div class="form-group">
+      <label>Amount (₦)</label>
+      <input type="number" id="fundAmount" placeholder="Enter amount" min="1">
+    </div>
+
+    <button class="primary-btn" onclick="fundWallet()">Add Money</button>
+    <button class="secondary-btn" onclick="closeModal('fundModal')">Cancel</button>
+
+  </div>
+</div>
+
+<!-- AIRTIME MODAL -->
+<div class="modal" id="airtimeModal">
+  <div class="modal-box">
+
+    <div class="modal-header">
+      <h2>📞 Buy Airtime</h2>
+      <button class="close" onclick="closeModal('airtimeModal')">×</button>
+    </div>
+
+    <div class="form-group">
+      <label>Network</label>
+      <select id="airtimeNetwork">
+        <option>MTN</option>
+        <option>Airtel</option>
+        <option>GLO</option>
+        <option>9MOBILE</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Phone Number</label>
+      <input type="tel" id="airtimePhone" placeholder="08012345678" maxlength="11">
+    </div>
+
+    <div class="form-group">
+      <label>Amount (₦)</label>
+      <input type="number" id="airtimeAmount" placeholder="Enter amount" min="1">
+    </div>
+
+    <button class="primary-btn" onclick="submitAirtime()">Continue</button>
+    <button class="secondary-btn" onclick="closeModal('airtimeModal')">Cancel</button>
+
+  </div>
+</div>
+
+<!-- CONTACT MODAL -->
+<div class="modal" id="contactModal">
+  <div class="modal-box">
+
+    <div class="modal-header">
+      <h2>◉ Contact Us</h2>
+      <button class="close" onclick="closeModal('contactModal')">×</button>
+    </div>
+
+    <div class="info-box">
+      Hapsat Data Support<br><br>
+      WhatsApp: Add your support number here.<br>
+      Email: Add your support email here.
+    </div>
+
+    <button class="secondary-btn" onclick="closeModal('contactModal')">Close</button>
+
+  </div>
+</div>
+
+<!-- NOTICE MODAL -->
+<div class="modal" id="noticeModal">
+  <div class="modal-box">
+
+    <div class="modal-header">
+      <h2 id="noticeTitle">Hapsat Data</h2>
+      <button class="close" onclick="closeModal('noticeModal')">×</button>
+    </div>
+
+    <p id="noticeText" style="font-size:14px;line-height:1.6;color:#536078;"></p>
+
+    <button class="primary-btn" onclick="closeModal('noticeModal')">Okay</button>
+
+  </div>
+</div>
+
+<script>
+let selectedNetwork = "";
+let balanceVisible = true;
+let demoBalance = 0;
+
+function openModal(id) {
+  document.getElementById(id).classList.add("show");
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove("show");
+}
+
+function showNotice(title, message) {
+  document.getElementById("noticeTitle").textContent = title;
+  document.getElementById("noticeText").textContent = message;
+  openModal("noticeModal");
+}
+
+function toggleBalance() {
+  balanceVisible = !balanceVisible;
+
+  document.getElementById("balance").textContent =
+    balanceVisible
+      ? "₦" + demoBalance.toLocaleString("en-NG", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        })
+      : "₦••••••";
+
+}
+
+function selectNetwork(button, network) {
+  selectedNetwork = network;
+
+  document.querySelectorAll(".network").forEach(btn => {
+    btn.classList.remove("selected");
+  });
+
+  button.classList.add("selected");
+}
+
+function openDataModal() {
+  selectedNetwork = "";
+
+  document.querySelectorAll(".network").forEach(btn => {
+    btn.classList.remove("selected");
+  });
+
+  openModal("dataModal");
+}
+
+function submitData() {
+  const phone = document.getElementById("dataPhone").value.trim();
+  const bundle = document.getElementById("dataBundle").value;
+
+  if (!selectedNetwork) {
+    showNotice("Select Network", "Please select MTN, GLO, 9MOBILE or Airtel.");
+    return;
+  }
+
+  if (!/^0[0-9]{10}$/.test(phone)) {
+    showNotice("Invalid Phone Number", "Please enter a valid 11-digit Nigerian phone number.");
+    return;
+  }
+
+  if (!bundle) {
+    showNotice("Select Data Bundle", "Please select your data bundle.");
+    return;
+  }
+
+  closeModal("dataModal");
+
+  showNotice(
+    "Demo Purchase",
+    "Network: " + selectedNetwork +
+    "\nPhone: " + phone +
+    "\nBundle: " + bundle +
+    "\n\nThis is a demo. No real data has been purchased."
+  );
+}
+
+function fundWallet() {
+  const amount = Number(document.getElementById("fundAmount").value);
+
+  if (!Number.isFinite(amount) || amount <= 0) {
+    showNotice("Invalid Amount", "Please enter a valid amount.");
+    return;
+  }
+
+  closeModal("fundModal");
+
+  showNotice(
+    "Demo Wallet",
+    "₦" + amount.toLocaleString("en-NG") +
+    " is a demo amount only.\n\nNo real money has been added to your wallet."
+  );
+}
+
+function submitAirtime() {
+  const phone = document.getElementById("airtimePhone").value.trim();
+  const amount = Number(document.getElementById("airtimeAmount").value);
+  const network = document.getElementById("airtimeNetwork").value;
+
+  if (!/^0[0-9]{10}$/.test(phone)) {
+    showNotice("Invalid Phone Number", "Please enter a valid 11-digit Nigerian phone number.");
+    return;
+  }
+
+  if (!Number.isFinite(amount) || amount <= 0) {
+    showNotice("Invalid Amount", "Please enter a valid airtime amount.");
+    return;
+  }
+
+  closeModal("airtimeModal");
+
+  showNotice(
+    "Demo Airtime",
+    "Network: " + network +
+    "\nPhone: " + phone +
+    "\nAmount: ₦" + amount.toLocaleString("en-NG") +
+    "\n\nThis is a demo. No real airtime has been purchased."
+  );
+}
+
+/* Close modal when tapping outside the box */
+document.querySelectorAll(".modal").forEach(modal => {
+  modal.addEventListener("click", function(event) {
+    if (event.target === modal) {
+      modal.classList.remove("show");
+    }
+  });
+});
+</script>
+
+</body>
+</html>
+
